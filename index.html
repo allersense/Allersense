@@ -1,0 +1,2478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AllerSense — Understand What's Inside. Make Safer Choices.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #FBF8F2;
+      --surface-cream: #F5EFE6;
+      --card-beige: #EDE5D8;
+      --card-beige-light: #F2ECE1;
+      --border-warm: #DED3C4;
+      --border-light: #EBE3D7;
+      
+      --olive-dark: #2D4229;
+      --olive-mid: #3B5436;
+      --olive-light: #DDE7DA;
+      
+      --burgundy: #8B2635;
+      --burgundy-light: #F9E7EA;
+      --burgundy-border: #E8B4BC;
+      
+      --sage: #4E7754;
+      --sage-light: #E4EDE5;
+      
+      --amber: #B8700B;
+      --amber-light: #FEF3DE;
+      --amber-border: #F1D49B;
+      
+      --espresso: #251F1C;
+      --espresso-secondary: #5D534D;
+      --espresso-muted: #8A7F77;
+      
+      --font-display: 'Newsreader', Georgia, serif;
+      --font-label: 'Cinzel', serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      
+      --shadow-subtle: 0 2px 8px rgba(37, 31, 28, 0.04);
+      --shadow-card: 0 4px 16px rgba(37, 31, 28, 0.06);
+      --shadow-hover: 0 8px 24px rgba(37, 31, 28, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--espresso);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Container & Layout */
+    .app-viewport {
+      max-width: 640px;
+      margin: 0 auto;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: var(--bg-cream);
+      padding-bottom: 74px; /* Space for bottom nav */
+    }
+
+    /* Top App Header */
+    .top-header {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-cream);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--espresso);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--olive-dark);
+      background: var(--olive-light);
+      padding: 2px 7px;
+      border-radius: 12px;
+    }
+
+    .profile-pill-btn {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--espresso-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .profile-pill-btn:hover {
+      background: var(--card-beige);
+      color: var(--espresso);
+    }
+
+    .badge-count {
+      background: var(--olive-dark);
+      color: var(--bg-cream);
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* Screen Views Management */
+    .screen-view {
+      display: none;
+      padding: 20px;
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+
+    .screen-view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Typography */
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      color: var(--espresso);
+      line-height: 1.25;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-label);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      color: var(--espresso-muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--olive-dark);
+      color: var(--bg-cream);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      box-shadow: 0 2px 6px rgba(45, 66, 41, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--olive-mid);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface-cream);
+      color: var(--espresso);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--card-beige);
+      border-color: var(--espresso-muted);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: none;
+      color: var(--olive-dark);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px 12px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-ghost:hover {
+      text-decoration: underline;
+    }
+
+    /* LAUNCH SCREEN */
+    .launch-container {
+      min-height: calc(100vh - 100px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .badge-pill-top {
+      align-self: center;
+      background: var(--card-beige);
+      border: 1px solid var(--border-warm);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--espresso-secondary);
+    }
+
+    /* Ingredient Label Mockup Card */
+    .ingredient-label-spec {
+      background: var(--surface-cream);
+      border: 1.5px solid var(--border-warm);
+      border-radius: var(--radius-xl);
+      padding: 24px 20px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+
+    .spec-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--espresso);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    .spec-header span {
+      font-family: var(--font-label);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      color: var(--espresso-secondary);
+    }
+
+    .word-cloud-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 20px;
+    }
+
+    .label-word {
+      font-size: 11px;
+      font-family: var(--font-label);
+      padding: 5px 9px;
+      border-radius: 6px;
+      background: var(--card-beige);
+      color: var(--espresso-secondary);
+      border: 1px solid var(--border-warm);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .label-word.flag-burgundy {
+      background: var(--burgundy-light);
+      color: var(--burgundy);
+      border-color: var(--burgundy-border);
+      font-weight: 700;
+    }
+
+    .label-word.flag-olive {
+      background: var(--olive-light);
+      color: var(--olive-dark);
+      border-color: #B5D0B0;
+      font-weight: 700;
+    }
+
+    .center-identity {
+      text-align: center;
+      padding: 14px 0 6px 0;
+      border-top: 1px dashed var(--border-warm);
+    }
+
+    .launch-logo {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--espresso);
+      margin-bottom: 4px;
+    }
+
+    .launch-tagline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 18px;
+      color: var(--olive-dark);
+      margin-bottom: 12px;
+    }
+
+    .launch-intro {
+      font-size: 13px;
+      color: var(--espresso-secondary);
+      line-height: 1.6;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .pillars-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .pillar-box {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 10px 6px;
+    }
+
+    .pillar-title {
+      font-family: var(--font-label);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--olive-dark);
+      letter-spacing: 1px;
+    }
+
+    .pillar-desc {
+      font-size: 11px;
+      color: var(--espresso-muted);
+    }
+
+    /* ALLERGY PROFILE SELECTION */
+    .profile-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0 20px 0;
+    }
+
+    .allergen-chip-card {
+      background: var(--surface-cream);
+      border: 1.5px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .allergen-chip-card:hover {
+      border-color: var(--espresso-muted);
+      background: var(--card-beige-light);
+    }
+
+    .allergen-chip-card.selected {
+      background: var(--olive-light);
+      border-color: var(--olive-dark);
+      box-shadow: 0 2px 8px rgba(45, 66, 41, 0.12);
+    }
+
+    .chip-checkbox {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-warm);
+      background: var(--card-beige);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .allergen-chip-card.selected .chip-checkbox {
+      background: var(--olive-dark);
+      border-color: var(--olive-dark);
+      color: var(--bg-cream);
+    }
+
+    .chip-content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--espresso);
+      margin-bottom: 2px;
+    }
+
+    .chip-content p {
+      font-size: 12px;
+      color: var(--espresso-secondary);
+    }
+
+    /* DASHBOARD */
+    .hero-card {
+      background: var(--surface-cream);
+      border: 1.5px solid rgba(45, 66, 41, 0.35);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+    }
+
+    .hero-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .core-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--olive-light);
+      color: var(--olive-dark);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .core-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--olive-dark);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .secondary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .dash-card {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      cursor: pointer;
+      box-shadow: var(--shadow-subtle);
+      transition: all 0.2s ease;
+    }
+
+    .dash-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+      border-color: var(--espresso-muted);
+    }
+
+    .dash-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--card-beige);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      color: var(--olive-dark);
+    }
+
+    .dash-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .dash-card p {
+      font-size: 11px;
+      color: var(--espresso-secondary);
+      line-height: 1.4;
+    }
+
+    .allergens-summary-card {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .pill-tag {
+      background: var(--olive-light);
+      color: var(--olive-dark);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 6px;
+    }
+
+    /* INGREDIENT ANALYZER */
+    .analyzer-tabs {
+      display: flex;
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--espresso-secondary);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--olive-dark);
+      color: var(--bg-cream);
+      box-shadow: 0 2px 6px rgba(45, 66, 41, 0.2);
+    }
+
+    /* Camera Scanner Frame */
+    .camera-frame {
+      background: #181513;
+      border-radius: var(--radius-lg);
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      border: 2px solid var(--olive-dark);
+      margin-bottom: 16px;
+    }
+
+    .camera-feed {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .laser-line {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #6BFF8A;
+      box-shadow: 0 0 12px #6BFF8A;
+      animation: scanLaser 2.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes scanLaser {
+      0% { top: 12%; opacity: 0.3; }
+      50% { opacity: 0.9; }
+      100% { top: 88%; opacity: 0.3; }
+    }
+
+    .camera-hud {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #6BFF8A;
+      background: rgba(0,0,0,0.6);
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .frame-center-text {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .sample-label-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .sample-label-item {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .sample-label-item:hover {
+      border-color: var(--olive-dark);
+    }
+
+    /* Text Entry Box */
+    .textarea-container {
+      background: var(--surface-cream);
+      border: 1.5px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .textarea-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    textarea.ingredient-input {
+      width: 100%;
+      height: 140px;
+      background: var(--bg-cream);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--espresso);
+      line-height: 1.5;
+      resize: none;
+      outline: none;
+    }
+
+    textarea.ingredient-input:focus {
+      border-color: var(--olive-dark);
+    }
+
+    .preset-chips-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .preset-card {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+
+    .preset-card:hover {
+      background: var(--card-beige-light);
+    }
+
+    /* RESULTS VIEW */
+    .result-banner {
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      border: 1.5px solid transparent;
+    }
+
+    .result-banner.avoid {
+      background: var(--burgundy-light);
+      border-color: var(--burgundy);
+      color: var(--burgundy);
+    }
+
+    .result-banner.check {
+      background: var(--amber-light);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .result-banner.safe {
+      background: var(--sage-light);
+      border-color: var(--sage);
+      color: var(--sage);
+    }
+
+    .result-banner-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.6);
+      flex-shrink: 0;
+    }
+
+    .result-banner-content h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: inherit;
+      letter-spacing: 0.4px;
+      margin-bottom: 2px;
+    }
+
+    .result-banner-content p {
+      font-size: 12px;
+      color: var(--espresso);
+      line-height: 1.4;
+    }
+
+    /* Cross Contact Caution Card */
+    .cross-contact-card {
+      background: var(--amber-light);
+      border: 1.5px solid var(--amber);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .cross-contact-card h4 {
+      color: var(--amber);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .cross-contact-item {
+      background: var(--bg-cream);
+      border: 1px solid var(--amber-border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--espresso);
+      margin-top: 6px;
+    }
+
+    /* Flagged Ingredient Accordion Card */
+    .flagged-card {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .flagged-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .flagged-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--espresso);
+      letter-spacing: 0.3px;
+    }
+
+    .flagged-category {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--olive-dark);
+    }
+
+    .status-badge-sm {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .status-badge-sm.avoid {
+      background: var(--burgundy-light);
+      color: var(--burgundy);
+    }
+
+    .status-badge-sm.check {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
+
+    .flagged-why {
+      font-size: 13px;
+      color: var(--espresso);
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+
+    .flagged-details-drawer {
+      display: none;
+      border-top: 1px solid var(--border-warm);
+      padding-top: 14px;
+      margin-top: 12px;
+    }
+
+    .flagged-card.open .flagged-details-drawer {
+      display: block;
+    }
+
+    .sub-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--espresso-muted);
+      margin-bottom: 4px;
+    }
+
+    .tree-action-btn {
+      margin-top: 12px;
+      background: var(--olive-light);
+      color: var(--olive-dark);
+      border: 1px solid #C4DABF;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+    }
+
+    /* INGREDIENT FAMILY TREE VIEW */
+    .tree-category-tabs {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+
+    .tree-category-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tree-tab-chip {
+      white-space: nowrap;
+      padding: 7px 14px;
+      border-radius: 20px;
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--espresso);
+      cursor: pointer;
+    }
+
+    .tree-tab-chip.active {
+      background: var(--olive-dark);
+      border-color: var(--olive-dark);
+      color: var(--bg-cream);
+    }
+
+    .tree-node-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin: 16px 0;
+    }
+
+    .tree-card-node {
+      width: 100%;
+      background: var(--surface-cream);
+      border: 1.5px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .tree-card-node.root {
+      background: var(--olive-light);
+      border-color: var(--olive-dark);
+    }
+
+    .tree-card-node.target {
+      background: var(--burgundy-light);
+      border-color: var(--burgundy);
+    }
+
+    .connector-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 38px;
+      position: relative;
+    }
+
+    .connector-line::before {
+      content: '';
+      width: 2px;
+      height: 100%;
+      background: var(--border-warm);
+      border-left: 2px dashed var(--olive-dark);
+    }
+
+    .connector-dot {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--card-beige);
+      border: 1px solid var(--border-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--olive-dark);
+    }
+
+    /* LEARN MODE */
+    .learn-card {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .learn-card h3 {
+      font-size: 20px;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .learn-tagline {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--olive-dark);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    /* HISTORY VIEW */
+    .history-card {
+      background: var(--surface-cream);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      box-shadow: var(--shadow-subtle);
+      transition: all 0.2s ease;
+    }
+
+    .history-card:hover {
+      border-color: var(--espresso-muted);
+    }
+
+    /* DISCLAIMER BANNER */
+    .disclaimer-card {
+      background: var(--card-beige-light);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 11px;
+      color: var(--espresso-muted);
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+
+    /* BOTTOM NAVIGATION */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface-cream);
+      border-top: 1px solid var(--border-warm);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 10px;
+      z-index: 50;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      text-decoration: none;
+      color: var(--espresso-muted);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .nav-item.active {
+      color: var(--olive-dark);
+    }
+
+    .nav-item.active .nav-icon-wrapper {
+      background: var(--olive-light);
+    }
+
+    .nav-icon-wrapper {
+      width: 32px;
+      height: 24px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SVG Icons */
+    .icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Toast Notification */
+    .toast-msg {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--espresso);
+      color: var(--bg-cream);
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    .toast-msg.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Utilities */
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mt-4 { margin-top: 16px; }
+    .mb-2 { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+  <div class="app-viewport">
+
+    <!-- Top Sticky Header -->
+    <header class="top-header">
+      <div class="brand-mark" onclick="showScreen('screen-dashboard')">
+        <span class="brand-title">AllerSense</span>
+        <span class="brand-tag">INTELLIGENCE</span>
+      </div>
+      <button class="profile-pill-btn" onclick="showScreen('screen-profile')">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Profile</span>
+        <span class="badge-count" id="headerAllergenCount">3</span>
+      </button>
+    </header>
+
+    <!-- SCREEN 1: LAUNCH SCREEN -->
+    <section id="screen-launch" class="screen-view active">
+      <div class="launch-container">
+        <div class="badge-pill-top">FOOD INTELLIGENCE & SAFETY PROTOTYPE</div>
+
+        <!-- Ingredient-label inspired visual composition -->
+        <div class="ingredient-label-spec">
+          <div class="spec-header">
+            <span>INGREDIENTS SPECIFICATION</span>
+            <span>EST. 2026</span>
+          </div>
+
+          <div class="word-cloud-grid">
+            <span class="label-word">CANE SUGAR</span>
+            <span class="label-word flag-burgundy">WHEY PROTEIN</span>
+            <span class="label-word">COCOA BUTTER</span>
+            <span class="label-word flag-burgundy">CASEIN</span>
+            <span class="label-word">SEA SALT</span>
+            <span class="label-word flag-olive">SOY LECITHIN</span>
+            <span class="label-word">OAT FIBER</span>
+            <span class="label-word flag-olive">ALMOND FLAVOUR</span>
+            <span class="label-word">NATURAL VANILLA</span>
+          </div>
+
+          <div class="center-identity">
+            <h1 class="launch-logo">AllerSense</h1>
+            <p class="launch-tagline">“Understand what’s inside. Make safer choices.”</p>
+            <p class="launch-intro">
+              Reads between the lines of complicated packaged food labels, uncovering hidden allergens and industrial protein derivatives.
+            </p>
+          </div>
+        </div>
+
+        <div class="pillars-row">
+          <div class="pillar-box">
+            <div class="pillar-title">IDENTIFY</div>
+            <div class="pillar-desc">Hidden Aliases</div>
+          </div>
+          <div class="pillar-box">
+            <div class="pillar-title">ANALYZE</div>
+            <div class="pillar-desc">Family Trees</div>
+          </div>
+          <div class="pillar-box">
+            <div class="pillar-title">DECIDE</div>
+            <div class="pillar-desc">Instant Risk</div>
+          </div>
+        </div>
+
+        <div>
+          <button class="btn-primary" onclick="showScreen('screen-profile')">
+            <span>Create My Allergy Profile</span>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <div style="text-align: center; margin-top: 10px;">
+            <button class="btn-ghost" onclick="showScreen('screen-dashboard')">
+              Skip directly to Dashboard →
+            </button>
+          </div>
+        </div>
+
+        <div class="disclaimer-card" style="margin-top: 0;">
+          Educational prototype. Users with severe food allergies must verify labels directly with food manufacturers.
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: ALLERGY PROFILE SETUP -->
+    <section id="screen-profile" class="screen-view">
+      <span class="section-eyebrow">PERSONAL DEFENSE</span>
+      <h2>My Allergy Profile</h2>
+      <p style="font-size: 13px; color: var(--espresso-secondary); margin-bottom: 14px;">
+        Select all allergens you need to avoid. AllerSense saves this profile locally to highlight critical matches.
+      </p>
+
+      <div class="flex-between" style="background: var(--surface-cream); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-warm);">
+        <span style="font-size: 13px; font-weight: 700; color: var(--olive-dark);" id="profileStatusCounter">3 Allergens Protected</span>
+        <span style="font-size: 11px; color: var(--espresso-muted);">Tap chip to toggle</span>
+      </div>
+
+      <div class="profile-grid" id="allergenProfileList">
+        <!-- Rendered by JS -->
+      </div>
+
+      <button class="btn-primary" onclick="saveProfileAndGoDashboard()">
+        <span>Save & Continue to Dashboard</span>
+        <svg class="icon" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+      </button>
+    </section>
+
+    <!-- SCREEN 3: DASHBOARD -->
+    <section id="screen-dashboard" class="screen-view">
+      <span class="section-eyebrow">DASHBOARD OVERVIEW</span>
+      <h2>Food Safety Intelligence</h2>
+      <p style="font-size: 13px; color: var(--espresso-secondary); margin-bottom: 18px;">
+        Scan packaged food labels or verify text for hidden derivatives.
+      </p>
+
+      <!-- Primary Action: Hero Feature Card -->
+      <div class="hero-card">
+        <div class="hero-header">
+          <span class="core-badge">CORE ANALYZER</span>
+          <span style="font-size: 11px; color: var(--espresso-muted);">Built-in DB & OCR</span>
+        </div>
+        <h3 style="font-size: 20px; margin-bottom: 4px;">Analyze Package Label</h3>
+        <p style="font-size: 13px; color: var(--espresso-secondary); line-height: 1.5;">
+          Instantly evaluate protein isolates, emulsifiers, alternative ingredient names, and cross-contamination notices.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="openAnalyzer('camera')">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Scan Ingredient List</span>
+          </button>
+          <button class="btn-secondary" onclick="openAnalyzer('manual')">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span>Enter Ingredients Manually</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Secondary Card 1: My Allergens Summary -->
+      <span class="section-eyebrow">MONITORED PROFILE</span>
+      <div class="allergens-summary-card" onclick="showScreen('screen-profile')">
+        <div class="flex-between">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg class="icon" style="color:var(--olive-dark);" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>
+              <h4 style="font-size: 14px; font-weight:700;">My Active Allergens</h4>
+              <p style="font-size: 11px; color: var(--espresso-muted);" id="dashAllergensSubtitle">3 allergens monitored</p>
+            </div>
+          </div>
+          <span style="font-size: 12px; font-weight:700; color:var(--olive-dark);">Edit →</span>
+        </div>
+        <div class="tags-cloud" id="dashAllergenTags">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Secondary Cards Row: Learn Mode & Scan History -->
+      <div class="secondary-grid">
+        <div class="dash-card" onclick="showScreen('screen-learn')">
+          <div class="dash-icon-box">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h4>Learn Mode</h4>
+          <p>Educational guide to hidden aliases and sources</p>
+        </div>
+
+        <div class="dash-card" onclick="showScreen('screen-history')">
+          <div class="dash-icon-box">
+            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h4>Scan History</h4>
+          <p id="dashHistoryCount">0 saved food analyses</p>
+        </div>
+      </div>
+
+      <!-- Recent Scans Preview -->
+      <div id="recentScansContainer" style="display:none;">
+        <div class="flex-between" style="margin-bottom: 8px;">
+          <span class="section-eyebrow" style="margin-bottom:0;">RECENT SCANS</span>
+          <button class="btn-ghost" onclick="showScreen('screen-history')" style="padding:0; font-size:12px;">View All</button>
+        </div>
+        <div id="recentScansList"></div>
+      </div>
+
+      <div class="disclaimer-card">
+        Disclaimer: AllerSense is an educational prototype. Always verify food allergen and cross-contact statements with manufacturers or healthcare professionals.
+      </div>
+    </section>
+
+    <!-- SCREEN 4: INGREDIENT ANALYZER -->
+    <section id="screen-analyzer" class="screen-view">
+      <span class="section-eyebrow">FOOD LABEL READER</span>
+      <h2>Ingredient Analyzer</h2>
+      <p style="font-size: 13px; color: var(--espresso-secondary); margin-bottom: 16px;">
+        Use camera scanning or paste an ingredient statement.
+      </p>
+
+      <!-- Tabs: Camera Scanner vs Manual Entry -->
+      <div class="analyzer-tabs">
+        <button class="tab-btn active" id="tabBtnCamera" onclick="switchAnalyzerTab('camera')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Camera Scanner</span>
+        </button>
+        <button class="tab-btn" id="tabBtnManual" onclick="switchAnalyzerTab('manual')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span>Manual Entry</span>
+        </button>
+      </div>
+
+      <!-- CAMERA SCANNER TAB CONTENT -->
+      <div id="contentCameraScanner">
+        <div class="camera-frame">
+          <video id="webcamFeed" class="camera-feed" autoplay playsinline muted></video>
+          <div class="laser-line"></div>
+          <div class="camera-hud">[ OCR ACTIVE ]</div>
+          <div class="frame-center-text">
+            <span style="font-size:10px; font-weight:700; letter-spacing:1.5px; opacity:0.6;">FRAME INGREDIENTS LIST</span>
+            <p style="font-size:12px; font-family:monospace; margin-top:8px; opacity:0.8;">
+              “Whey protein, cocoa, sugar, casein, soy lecithin...”
+            </p>
+          </div>
+        </div>
+
+        <span class="section-eyebrow">CHOOSE A REALISTIC PACKAGED FOOD LABEL TO SCAN:</span>
+        <div class="sample-label-strip">
+          <div class="sample-label-item" onclick="simulateLabelScan('Protein Snack Bar', 'Whey protein, cocoa, sugar, casein, soy lecithin, almond flavour, salt')">
+            <div>
+              <div style="font-size:14px; font-weight:700;">Protein Snack Bar</div>
+              <div style="font-size:11px; color:var(--espresso-secondary);">Contains casein, whey, soy lecithin & almond essence</div>
+            </div>
+            <span class="status-badge-sm" style="background:var(--olive-light); color:var(--olive-dark);">Scan & Read</span>
+          </div>
+
+          <div class="sample-label-item" onclick="simulateLabelScan('Bakery Bagel Label', 'Enriched wheat flour, malted barley, water, soybean oil, sesame seeds, salt, yeast')">
+            <div>
+              <div style="font-size:14px; font-weight:700;">Bakery Multi-Grain Bagel</div>
+              <div style="font-size:11px; color:var(--espresso-secondary);">Contains wheat gluten, barley malt, soy & sesame</div>
+            </div>
+            <span class="status-badge-sm" style="background:var(--olive-light); color:var(--olive-dark);">Scan & Read</span>
+          </div>
+
+          <div class="sample-label-item" onclick="simulateLabelScan('Crispy Oatmeal Granola', 'Organic rolled oats, cane sugar, canola oil, sea salt. May contain traces of peanuts and tree nuts.')">
+            <div>
+              <div style="font-size:14px; font-weight:700;">Crispy Oatmeal Granola</div>
+              <div style="font-size:11px; color:var(--espresso-secondary);">Oats with cross-contact facility notice</div>
+            </div>
+            <span class="status-badge-sm" style="background:var(--olive-light); color:var(--olive-dark);">Scan & Read</span>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="simulateLabelScan('Captured Camera Label', 'Whey protein, cocoa, sugar, casein, soy lecithin, almond flavour, salt')">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          <span>Capture & Analyze Current Label</span>
+        </button>
+      </div>
+
+      <!-- MANUAL ENTRY TAB CONTENT -->
+      <div id="contentManualEntry" style="display:none;">
+        <div class="textarea-container">
+          <div class="textarea-header">
+            <span class="sub-label">INGREDIENTS LIST</span>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-ghost" onclick="pasteSampleClipboard()" style="padding:0; font-size:12px;">Paste Sample</button>
+              <button class="btn-ghost" onclick="clearInput()" style="padding:0; font-size:12px; color:var(--espresso-muted);">Clear</button>
+            </div>
+          </div>
+          <textarea id="rawIngredientText" class="ingredient-input" placeholder="Paste or type ingredients list here... e.g. Whey protein, cocoa, sugar, casein, soy lecithin, almond flavour, salt"></textarea>
+          <div style="text-align:right; font-size:11px; color:var(--espresso-muted); margin-top:4px;" id="charCountLabel">0 characters</div>
+        </div>
+
+        <span class="section-eyebrow">OR SELECT A QUICK PRESET:</span>
+        <div class="preset-chips-row">
+          <div class="preset-card" onclick="loadPreset('Whey protein, cocoa, sugar, casein, soy lecithin, almond flavour, salt', 'Protein Bar with Hidden Milk & Soy')">
+            <div style="font-size:13px; font-weight:700; color:var(--olive-dark);">Protein Bar (Casein, Whey, Soy Lecithin)</div>
+            <div style="font-size:11px; color:var(--espresso-secondary);">Hidden milk protein and almond essence</div>
+          </div>
+
+          <div class="preset-card" onclick="loadPreset('Cocoa mass, sugar, peanut flour, egg albumin, artificial vanilla. May contain traces of tree nuts.', 'Artisan Dark Chocolate Snack')">
+            <div style="font-size:13px; font-weight:700; color:var(--olive-dark);">Dark Chocolate Snack (Peanuts & Egg Albumin)</div>
+            <div style="font-size:11px; color:var(--espresso-secondary);">Peanut flour, egg whites, and cross-contact</div>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="runManualAnalysis()">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <span>Analyze Ingredients</span>
+        </button>
+      </div>
+
+      <div class="disclaimer-card">
+        AllerSense matches raw biochemical ingredient variants against our comprehensive food science database.
+      </div>
+    </section>
+
+    <!-- SCREEN 5: RESULTS SCREEN -->
+    <section id="screen-results" class="screen-view">
+      <div class="flex-between" style="margin-bottom: 12px;">
+        <button class="btn-ghost" onclick="showScreen('screen-analyzer')" style="padding-left:0;">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Back to Analyzer</span>
+        </button>
+        <span style="font-size:11px; color:var(--espresso-muted);" id="resultsTimestamp">Just now</span>
+      </div>
+
+      <!-- MAIN STATE HERO BANNER: RED, YELLOW, GREEN -->
+      <div id="resultsBanner" class="result-banner avoid">
+        <div class="result-banner-icon" id="resultsBannerIcon">!</div>
+        <div class="result-banner-content">
+          <h3 id="resultsBannerTitle">RED — AVOID PRODUCT</h3>
+          <p id="resultsBannerSub">Contains ingredients matching your active allergy profile.</p>
+        </div>
+      </div>
+
+      <!-- CROSS-CONTAMINATION WARNING (IF DETECTED) -->
+      <div id="crossContactNoticeBlock" class="cross-contact-card" style="display:none;">
+        <h4>
+          <svg class="icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>CAUTION — POSSIBLE CROSS-CONTACT</span>
+        </h4>
+        <p style="font-size:12px; color:var(--espresso); margin-bottom:6px;">
+          The manufacturer included the following advisory statements:
+        </p>
+        <div id="crossContactStatementsList"></div>
+      </div>
+
+      <!-- RED - AVOID SECTION -->
+      <div id="resultsAvoidSection">
+        <div class="flex-between" style="margin-bottom:8px;">
+          <span class="section-eyebrow" style="color:var(--burgundy); font-weight:700;">RED — AVOID</span>
+          <span class="status-badge-sm avoid" id="resultsAvoidCount">0 MATCHES</span>
+        </div>
+        <div id="resultsAvoidList"></div>
+      </div>
+
+      <!-- YELLOW - CHECK SECTION -->
+      <div id="resultsCheckSection" style="margin-top:14px;">
+        <div class="flex-between" style="margin-bottom:8px;">
+          <span class="section-eyebrow" style="color:var(--amber); font-weight:700;">YELLOW — CHECK</span>
+          <span class="status-badge-sm check" id="resultsCheckCount">0 ITEMS</span>
+        </div>
+        <div id="resultsCheckList"></div>
+      </div>
+
+      <!-- GREEN - SAFE SECTION -->
+      <div id="resultsSafeSection" style="margin-top:14px;">
+        <div class="flex-between" style="margin-bottom:8px;">
+          <span class="section-eyebrow" style="color:var(--sage); font-weight:700;">GREEN — NO MATCH</span>
+        </div>
+        <div id="resultsSafeCard" class="flagged-card" style="border-color:var(--sage);">
+          <div style="font-size:14px; font-weight:700; color:var(--sage); margin-bottom:4px;">No Allergens Detected</div>
+          <p style="font-size:12px; color:var(--espresso-secondary);">
+            No matches found from your active allergy profile. Always check for untranslated names on imported goods.
+          </p>
+        </div>
+      </div>
+
+      <!-- Raw Ingredient Preview -->
+      <div class="disclaimer-card" style="margin-top:20px;">
+        <strong>Analyzed Ingredient Statement:</strong><br>
+        <span id="resultsRawText" style="font-family:monospace; font-size:11px;"></span>
+      </div>
+    </section>
+
+    <!-- SCREEN 6: INGREDIENT FAMILY TREE -->
+    <section id="screen-family-tree" class="screen-view">
+      <div class="flex-between" style="margin-bottom: 12px;">
+        <button class="btn-ghost" onclick="showScreen('screen-results')" style="padding-left:0;">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Back to Results</span>
+        </button>
+        <span class="section-eyebrow" style="margin-bottom:0;">RELATIONSHIP MAP</span>
+      </div>
+
+      <h2>Ingredient Family Tree</h2>
+      <p style="font-size: 13px; color: var(--espresso-secondary); margin-bottom: 14px;">
+        Explore how whole allergens are broken down into hidden peptides and industrial food derivatives.
+      </p>
+
+      <!-- Category Filter Tabs -->
+      <div class="tree-category-tabs" id="treeCategoryTabs">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="tree-node-stack" id="treeNodeStack">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="disclaimer-card">
+        Biochemical node breakdown illustrates protein fractions that trigger IgE-mediated hypersensitivity.
+      </div>
+    </section>
+
+    <!-- SCREEN 7: LEARN MODE -->
+    <section id="screen-learn" class="screen-view">
+      <span class="section-eyebrow">EDITORIAL FIELD GUIDE</span>
+      <h2>Learn About Allergens</h2>
+      <p style="font-size: 13px; color: var(--espresso-secondary); margin-bottom: 18px;">
+        Educational reference for recognizing hidden protein derivatives on modern packaging.
+      </p>
+
+      <div id="learnCardsContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- SCREEN 8: SCAN HISTORY -->
+    <section id="screen-history" class="screen-view">
+      <div class="flex-between" style="margin-bottom: 6px;">
+        <span class="section-eyebrow" style="margin-bottom:0;">SAVED ANALYSES</span>
+        <button class="btn-ghost" onclick="clearAllHistory()" style="color:var(--burgundy); font-size:12px; padding:0;">Clear All</button>
+      </div>
+      <h2>Scan History</h2>
+      <p style="font-size: 13px; color: var(--espresso-secondary); margin-bottom: 18px;">
+        All ingredient lists analyzed on this device are saved locally.
+      </p>
+
+      <div id="historyListContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- BOTTOM PERSISTENT NAVIGATION -->
+    <nav class="bottom-nav">
+      <div class="nav-item active" id="navHome" onclick="showScreen('screen-dashboard')">
+        <div class="nav-icon-wrapper">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        </div>
+        <span>Home</span>
+      </div>
+
+      <div class="nav-item" id="navAnalyze" onclick="showScreen('screen-analyzer')">
+        <div class="nav-icon-wrapper">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <span>Analyze</span>
+      </div>
+
+      <div class="nav-item" id="navAllergens" onclick="showScreen('screen-profile')">
+        <div class="nav-icon-wrapper">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span>Allergens</span>
+      </div>
+
+      <div class="nav-item" id="navHistory" onclick="showScreen('screen-history')">
+        <div class="nav-icon-wrapper">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span>History</span>
+      </div>
+
+      <div class="nav-item" id="navLearn" onclick="showScreen('screen-learn')">
+        <div class="nav-icon-wrapper">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <span>Learn</span>
+      </div>
+    </nav>
+
+    <!-- Toast Component -->
+    <div id="toastMessage" class="toast-msg">Notification</div>
+
+  </div>
+
+  <!-- EMBEDDED JAVASCRIPT LOGIC & COMPREHENSIVE ALLERGEN DATABASE -->
+  <script>
+    // --- 1. ALLERGEN DATABASE DEFINITIONS ---
+    const ALLERGENS = [
+      { id: 'MILK', name: 'Milk', desc: 'Dairy, casein, whey, lactose, milk solids, curds, ghee' },
+      { id: 'EGGS', name: 'Eggs', desc: 'Egg white, albumin, lysozyme, ovalbumin, egg yolk binders' },
+      { id: 'PEANUTS', name: 'Peanuts', desc: 'Peanut flour, peanut butter, arachis oil, groundnuts' },
+      { id: 'TREE_NUTS', name: 'Tree nuts', desc: 'Almonds, cashews, walnuts, pecans, hazelnuts, pistachios' },
+      { id: 'SOY', name: 'Soy', desc: 'Soy lecithin, edamame, hydrolyzed soy protein, soybean oil' },
+      { id: 'WHEAT_GLUTEN', name: 'Wheat/Gluten', desc: 'Wheat flour, gluten, barley malt, spelt, rye, food starch' },
+      { id: 'FISH', name: 'Fish', desc: 'Fish gelatin, isinglass, anchovy, Worcestershire extract' },
+      { id: 'SHELLFISH', name: 'Shellfish', desc: 'Chitin, glucosamine, oyster sauce, shrimp paste, crab' },
+      { id: 'SESAME', name: 'Sesame', desc: 'Tahini, sesame oil, sesame seeds, gomasio, til' }
+    ];
+
+    const INGREDIENT_KNOWLEDGE_BASE = [
+      // MILK
+      {
+        name: 'Casein',
+        category: 'MILK',
+        status: 'AVOID',
+        whyFlagged: 'Casein is the primary protein found in mammalian milk (approx. 80% of cow milk protein) and a major anaphylactic trigger.',
+        alternativeNames: ['Caseinate', 'Sodium caseinate', 'Calcium caseinate', 'Micellar casein', 'Hydrolyzed casein'],
+        commonSources: ['Cheese', 'Protein bars & powders', 'Processed sausages', 'Non-dairy creamers', 'Bakery glazes'],
+        tree: ['MILK', 'MILK PROTEINS', 'CASEIN', 'POTENTIAL ALLERGEN']
+      },
+      {
+        name: 'Whey',
+        category: 'MILK',
+        status: 'AVOID',
+        whyFlagged: 'Whey protein contains β-lactoglobulin and α-lactalbumin, potent dairy allergens remaining after curd separation.',
+        alternativeNames: ['Whey protein isolate (WPI)', 'Whey protein concentrate (WPC)', 'Hydrolyzed whey', 'Sweet dairy whey'],
+        commonSources: ['Sports supplements', 'Crackers', 'Pastries', 'Gravies', 'Packaged seasonings'],
+        tree: ['MILK', 'MILK PROTEINS', 'WHEY PROTEIN', 'POTENTIAL ALLERGEN']
+      },
+      {
+        name: 'Lactose',
+        category: 'MILK',
+        status: 'CHECK',
+        whyFlagged: 'Lactose is milk sugar; while chemically a disaccharide carbohydrate, commercial lactose often carries residual dairy protein traces.',
+        alternativeNames: ['Milk sugar', 'Lactose monohydrate'],
+        commonSources: ['Medications', 'Confectionery', 'Seasoning mixes', 'Processed chips'],
+        tree: ['MILK', 'DAIRY CARBOHYDRATES', 'COMMERCIAL LACTOSE', 'RESIDUAL DAIRY TRACES']
+      },
+      {
+        name: 'Ghee',
+        category: 'MILK',
+        status: 'AVOID',
+        whyFlagged: 'Clarified butterfat; although solids are simmered off, residual milk protein micro-traces can remain.',
+        alternativeNames: ['Clarified butter', 'Desi ghee'],
+        commonSources: ['Curries', 'Pastries', 'High-heat saute oils'],
+        tree: ['MILK', 'DAIRY FAT', 'GHEE / CLARIFIED BUTTER', 'POTENTIAL ALLERGEN']
+      },
+      // EGGS
+      {
+        name: 'Egg Albumin',
+        category: 'EGGS',
+        status: 'AVOID',
+        whyFlagged: 'Albumin (ovalbumin) represents >50% of egg white protein and is the key allergen trigger.',
+        alternativeNames: ['Ovalbumin', 'Ovotransferrin', 'Egg white solids', 'Egg albumin'],
+        commonSources: ['Meringues', 'Marshmallows', 'Protein bars', 'Bakery glazes', 'Mayonnaise'],
+        tree: ['EGGS', 'EGG WHITE PROTEINS', 'OVALBUMIN / ALBUMIN', 'POTENTIAL ALLERGEN']
+      },
+      {
+        name: 'Lysozyme',
+        category: 'EGGS',
+        status: 'AVOID',
+        whyFlagged: 'An antimicrobial enzyme isolated from egg whites (preservative E1105).',
+        alternativeNames: ['E1105', 'Egg lysozyme', 'Muramidase'],
+        commonSources: ['Aged cheeses', 'Wines', 'Fermented delicacies'],
+        tree: ['EGGS', 'EGG ENZYMES', 'LYSOZYME (E1105)', 'POTENTIAL ALLERGEN']
+      },
+      // PEANUTS
+      {
+        name: 'Peanut Flour',
+        category: 'PEANUTS',
+        status: 'AVOID',
+        whyFlagged: 'Defatted or milled peanut meal with extremely concentrated, heat-stable Ara h storage proteins.',
+        alternativeNames: ['De-fatted peanut meal', 'Peanut powder', 'Groundnut flour'],
+        commonSources: ['Gluten-free baking', 'Protein powders', 'Sauce thickeners', 'Energy bars'],
+        tree: ['PEANUTS', 'LEGUME SEED STORAGE PROTEINS', 'ARA H 1 / ARA H 2', 'HIGH-RISK ALLERGEN']
+      },
+      {
+        name: 'Peanut Butter',
+        category: 'PEANUTS',
+        status: 'AVOID',
+        whyFlagged: 'Roasted ground peanut paste with high allergen load.',
+        alternativeNames: ['Groundnut paste', 'Arachis hypogaea butter'],
+        commonSources: ['Confections', 'Satay sauces', 'Granola', 'Baked goods'],
+        tree: ['PEANUTS', 'LEGUME PASTE', 'WHOLE PEANUT PROTEINS', 'HIGH-RISK ALLERGEN']
+      },
+      // TREE NUTS
+      {
+        name: 'Almond Flavour',
+        category: 'TREE_NUTS',
+        status: 'CHECK',
+        whyFlagged: 'May be synthetic benzaldehyde or distilled from true almond kernels containing tree nut proteins.',
+        alternativeNames: ['Almond extract', 'Bitter almond oil', 'Natural almond flavoring'],
+        commonSources: ['Marzipan', 'Amaretto cookies', 'Pastries', 'Specialty syrups'],
+        tree: ['TREE NUTS', 'PRUNUS DULCIS', 'ALMOND ESSENCE / OIL', 'REQUIRES CLARIFICATION']
+      },
+      {
+        name: 'Cashew Butter',
+        category: 'TREE_NUTS',
+        status: 'AVOID',
+        whyFlagged: 'Cashews contain potent 2S albumin and 11S legumin proteins (Ana o 1, 2, 3) with high cross-reactivity to pistachios.',
+        alternativeNames: ['Ground cashews', 'Cashew cream'],
+        commonSources: ['Vegan cheeses', 'Pesto sauces', 'Smoothie bases', 'Confections'],
+        tree: ['TREE NUTS', 'ANACARDIACEAE', 'CASHEW PROTEINS (ANA O)', 'HIGH-RISK ALLERGEN']
+      },
+      // SOY
+      {
+        name: 'Soy Lecithin',
+        category: 'SOY',
+        status: 'AVOID',
+        whyFlagged: 'Phospholipid emulsifier extracted from crude soybean oil containing residual soy protein traces.',
+        alternativeNames: ['Soya lecithin', 'E322', 'Soy phosphatides'],
+        commonSources: ['Chocolates', 'Margarines', 'Cooking sprays', 'Processed snack bars'],
+        tree: ['SOY', 'SOYBEAN FRACTIONS', 'SOY LECITHIN (E322)', 'POTENTIAL ALLERGEN']
+      },
+      {
+        name: 'Hydrolyzed Soy Protein',
+        category: 'SOY',
+        status: 'AVOID',
+        whyFlagged: 'Hydrolyzed vegetable protein retaining small allergenic peptide chains.',
+        alternativeNames: ['HVP', 'Soy protein hydrolysate', 'Hydrolyzed vegetable protein'],
+        commonSources: ['Bouillon cubes', 'Soup bases', 'Processed seasonings', 'Canned broths'],
+        tree: ['SOY', 'SOY PEPTIDES', 'HYDROLYZED SOY PROTEIN', 'POTENTIAL ALLERGEN']
+      },
+      // WHEAT / GLUTEN
+      {
+        name: 'Enriched Flour',
+        category: 'WHEAT_GLUTEN',
+        status: 'AVOID',
+        whyFlagged: 'Milled wheat flour containing gliadin and glutenin gluten chains.',
+        alternativeNames: ['Enriched wheat flour', 'All-purpose flour', 'Semolina', 'Bleached flour'],
+        commonSources: ['Breads', 'Pastas', 'Pastries', 'Roux sauces', 'Batter coatings'],
+        tree: ['WHEAT/GLUTEN', 'TRITICUM AESTIVUM', 'GLIADIN & GLUTENIN', 'HIGH-RISK ALLERGEN']
+      },
+      {
+        name: 'Malted Barley',
+        category: 'WHEAT_GLUTEN',
+        status: 'AVOID',
+        whyFlagged: 'Sprouted barley grain containing hordein gluten proteins unsafe for celiac disease.',
+        alternativeNames: ['Barley malt extract', 'Malt syrup', 'Malt flavor'],
+        commonSources: ['Cereals', 'Beers', 'Malt vinegar', 'Bagels', 'Confections'],
+        tree: ['WHEAT/GLUTEN', 'CEREAL GRAINS', 'BARLEY HORDEIN', 'HIGH-RISK ALLERGEN']
+      },
+      {
+        name: 'Modified Food Starch',
+        category: 'WHEAT_GLUTEN',
+        status: 'CHECK',
+        whyFlagged: 'May be sourced from corn, potato, tapioca, or wheat. Ambiguous on imported goods.',
+        alternativeNames: ['Food starch modified', 'Modified starch', 'Thickener 1422'],
+        commonSources: ['Gravies', 'Canned soups', 'Salad dressings', 'Puddings'],
+        tree: ['WHEAT/GLUTEN OR CORN', 'POLYSACCHARIDES', 'MODIFIED STARCH', 'BOTANICAL CHECK NEEDED']
+      },
+      // SESAME
+      {
+        name: 'Tahini',
+        category: 'SESAME',
+        status: 'AVOID',
+        whyFlagged: 'Dense paste made of 100% toasted hulled sesame seeds, full of Ses i allergens.',
+        alternativeNames: ['Sesame paste', 'Tehina', 'Sesame butter'],
+        commonSources: ['Hummus', 'Baba ganoush', 'Halva', 'Salad dressings', 'Falafel'],
+        tree: ['SESAME', 'SESAMUM INDICUM', 'TAHINI PASTE', 'HIGH-RISK ALLERGEN']
+      },
+      {
+        name: 'Sesame Oil',
+        category: 'SESAME',
+        status: 'AVOID',
+        whyFlagged: 'Aromatic unrefined oil cold-pressed from sesame seeds.',
+        alternativeNames: ['Gingelly oil', 'Til oil', 'Toasted sesame oil'],
+        commonSources: ['Stir fries', 'Marinades', 'Asian noodle dressings'],
+        tree: ['SESAME', 'SESAME LIPIDS', 'UNREFINED SESAME OIL', 'POTENTIAL ALLERGEN']
+      },
+      // FISH
+      {
+        name: 'Fish Gelatin',
+        category: 'FISH',
+        status: 'AVOID',
+        whyFlagged: 'Gelatin from fish skins containing residual fish parvalbumin.',
+        alternativeNames: ['Isinglass', 'Marine collagen', 'Fish collagen peptides'],
+        commonSources: ['Marshmallows', 'Beer finings', 'Gel capsules', 'Dessert glazes'],
+        tree: ['FISH', 'MARINE CONNECTIVE TISSUE', 'FISH GELATIN / ISINGLASS', 'POTENTIAL ALLERGEN']
+      },
+      // SHELLFISH
+      {
+        name: 'Glucosamine',
+        category: 'SHELLFISH',
+        status: 'CHECK',
+        whyFlagged: 'Supplements and food additives often synthesized from the chitin shells of crabs or shrimp.',
+        alternativeNames: ['Glucosamine sulfate', 'Chitin derivative', 'Chitosan'],
+        commonSources: ['Joint supplements', 'Nutritional drinks', 'Preservative edible films'],
+        tree: ['SHELLFISH', 'CRUSTACEAN EXOSKELETON', 'CHITIN / GLUCOSAMINE', 'POTENTIAL ALLERGEN']
+      }
+    ];
+
+    const LEARN_CARDS_DATA = [
+      {
+        category: 'MILK',
+        title: 'Milk',
+        tagline: 'Milk isn’t always written as “milk”.',
+        hiddenNames: ['Casein', 'Whey', 'Lactose', 'Caseinate', 'Milk solids', 'Curds', 'Ghee', 'Butterfat', 'Nougat'],
+        commonSources: 'Protein powders • Chocolate • Baked goods • Creamy sauces • Margarine • Processed meats',
+        tip: 'Look out for “non-dairy” creamers which legally may still contain sodium caseinate (a true milk protein)!'
+      },
+      {
+        category: 'EGGS',
+        title: 'Eggs',
+        tagline: 'Egg proteins masquerade under biochemical terms.',
+        hiddenNames: ['Albumin', 'Ovalbumin', 'Lysozyme (E1105)', 'Ovotransferrin', 'Egg wash', 'Lecithin (if egg-sourced)'],
+        commonSources: 'Bakery glazes • Mayonnaise • Marshmallows • Surimi • Specialty wines (fining)',
+        tip: 'Golden shiny finishes on artisanal pastries are almost always pure egg yolk wash.'
+      },
+      {
+        category: 'PEANUTS',
+        title: 'Peanuts',
+        tagline: 'Peanuts are underground legumes with thermostable proteins.',
+        hiddenNames: ['Arachis oil', 'Groundnuts', 'Beer nuts', 'Goober peas', 'Hydrolyzed peanut protein'],
+        commonSources: 'Satay sauces • Chili thickeners • Granola bars • Mole sauces • Baked pastries',
+        tip: 'Peanut allergen proteins (Ara h 1 & 2) resist baking heat and gastric acid.'
+      },
+      {
+        category: 'TREE_NUTS',
+        title: 'Tree nuts',
+        tagline: 'Diverse botanical families with high cross-reactivity.',
+        hiddenNames: ['Marzipan', 'Frangipane', 'Gianduja', 'Pesto', 'Nut butters', 'Almond paste', 'Mortadella (pistachio)'],
+        commonSources: 'Artisanal vegan cheeses • Pastries & tortes • Salad dressings • Premium ice creams',
+        tip: 'Cashews cross-react heavily with pistachios, and walnuts cross-react with pecans.'
+      },
+      {
+        category: 'SOY',
+        title: 'Soy',
+        tagline: 'Modern food manufacturing’s favorite emulsifier.',
+        hiddenNames: ['Soy lecithin (E322)', 'Hydrolyzed soy protein', 'Edamame', 'Textured vegetable protein (TVP)', 'Miso', 'Shoyu'],
+        commonSources: 'Chocolates • Canned broths • Cooking sprays • Meat alternatives • Processed breads',
+        tip: 'Soy lecithin is in nearly all commercial chocolate to maintain smooth flow.'
+      },
+      {
+        category: 'WHEAT_GLUTEN',
+        title: 'Wheat/Gluten',
+        tagline: 'Wheat and gluten hide in starches and fermented seasonings.',
+        hiddenNames: ['Spelt', 'Semolina', 'Malted barley', 'Farina', 'Bulgur', 'Modified food starch', 'Seitan'],
+        commonSources: 'Soy sauce • Salad dressings • Processed deli meats • Licorice candy • Beer',
+        tip: 'Traditional soy sauce is fermented with equal parts wheat. Choose certified Tamari.'
+      },
+      {
+        category: 'SESAME',
+        title: 'Sesame',
+        tagline: 'Officially recognized as the 9th major US allergen.',
+        hiddenNames: ['Tahini', 'Gomasio', 'Sesamum indicum', 'Gingelly oil', 'Til', 'Benne seed', 'Halvah'],
+        commonSources: 'Burger buns • Hummus & dips • Asian marinades • Falafel wraps • Bagel toppings',
+        tip: 'Sesame paste (tahini) is blended smoothly into hummus and salad dressings, rendering it invisible.'
+      }
+    ];
+
+    // --- 2. LOCAL STORAGE & STATE MANAGEMENT ---
+    let userAllergens = loadAllergens();
+    let scanHistory = loadHistory();
+    let currentAnalysisResult = null;
+    let selectedTreeCategory = 'MILK';
+
+    function loadAllergens() {
+      try {
+        const saved = localStorage.getItem('allersense_profile');
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return ['MILK', 'PEANUTS', 'TREE_NUTS']; // sensible default
+    }
+
+    function saveAllergensToStorage() {
+      localStorage.setItem('allersense_profile', JSON.stringify(userAllergens));
+      updateProfileBadges();
+    }
+
+    function loadHistory() {
+      try {
+        const saved = localStorage.getItem('allersense_history');
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return [];
+    }
+
+    function saveHistoryToStorage() {
+      localStorage.setItem('allersense_history', JSON.stringify(scanHistory));
+      renderHistoryList();
+    }
+
+    // --- 3. NAVIGATION ---
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(screenId);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Update bottom navigation active tab
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      if (screenId === 'screen-dashboard') document.getElementById('navHome').classList.add('active');
+      else if (screenId === 'screen-analyzer' || screenId === 'screen-results') document.getElementById('navAnalyze').classList.add('active');
+      else if (screenId === 'screen-profile') document.getElementById('navAllergens').classList.add('active');
+      else if (screenId === 'screen-history') document.getElementById('navHistory').classList.add('active');
+      else if (screenId === 'screen-learn' || screenId === 'screen-family-tree') document.getElementById('navLearn').classList.add('active');
+    }
+
+    function openAnalyzer(mode) {
+      showScreen('screen-analyzer');
+      switchAnalyzerTab(mode);
+    }
+
+    function switchAnalyzerTab(mode) {
+      const tabCamera = document.getElementById('tabBtnCamera');
+      const tabManual = document.getElementById('tabBtnManual');
+      const contentCamera = document.getElementById('contentCameraScanner');
+      const contentManual = document.getElementById('contentManualEntry');
+
+      if (mode === 'camera') {
+        tabCamera.classList.add('active');
+        tabManual.classList.remove('active');
+        contentCamera.style.display = 'block';
+        contentManual.style.display = 'none';
+        initWebcamIfAvailable();
+      } else {
+        tabManual.classList.add('active');
+        tabCamera.classList.remove('active');
+        contentCamera.style.display = 'none';
+        contentManual.style.display = 'block';
+      }
+    }
+
+    // Camera handling
+    async function initWebcamIfAvailable() {
+      const video = document.getElementById('webcamFeed');
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+          video.srcObject = stream;
+          video.style.display = 'block';
+        } catch (err) {
+          // Camera permission refused or unavailable - fallback gracefully to simulation
+          video.style.display = 'none';
+        }
+      }
+    }
+
+    // --- 4. PROFILE SCREEN RENDERING ---
+    function renderProfileChips() {
+      const container = document.getElementById('allergenProfileList');
+      container.innerHTML = '';
+
+      ALLERGENS.forEach(allergen => {
+        const isSelected = userAllergens.includes(allergen.id);
+        const card = document.createElement('div');
+        card.className = `allergen-chip-card ${isSelected ? 'selected' : ''}`;
+        card.onclick = () => toggleAllergen(allergen.id);
+
+        card.innerHTML = `
+          <div class="chip-checkbox">
+            ${isSelected ? '<svg class="icon" style="width:14px;height:14px;stroke-width:3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+          </div>
+          <div class="chip-content">
+            <h4>${allergen.name}</h4>
+            <p>${allergen.desc}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      updateProfileBadges();
+    }
+
+    function toggleAllergen(id) {
+      if (userAllergens.includes(id)) {
+        userAllergens = userAllergens.filter(x => x !== id);
+      } else {
+        userAllergens.push(id);
+      }
+      renderProfileChips();
+      saveAllergensToStorage();
+      showToast(`Updated profile: ${userAllergens.length} active`);
+    }
+
+    function updateProfileBadges() {
+      document.getElementById('headerAllergenCount').textContent = userAllergens.length;
+      const counter = document.getElementById('profileStatusCounter');
+      if (counter) counter.textContent = `${userAllergens.length} Allergens Protected`;
+      
+      const sub = document.getElementById('dashAllergensSubtitle');
+      if (sub) sub.textContent = `${userAllergens.length} allergens monitored`;
+
+      const tagsContainer = document.getElementById('dashAllergenTags');
+      if (tagsContainer) {
+        tagsContainer.innerHTML = '';
+        userAllergens.forEach(id => {
+          const item = ALLERGENS.find(a => a.id === id);
+          if (item) {
+            const span = document.createElement('span');
+            span.className = 'pill-tag';
+            span.textContent = item.name;
+            tagsContainer.appendChild(span);
+          }
+        });
+      }
+    }
+
+    function saveProfileAndGoDashboard() {
+      saveAllergensToStorage();
+      showToast('Profile saved successfully');
+      showScreen('screen-dashboard');
+    }
+
+    // --- 5. INGREDIENT ANALYSIS ENGINE ---
+    const crossContactRegexes = [
+      /may\s+contain(?:\s+traces\s+of)?\s+([a-zA-Z\s,/]+)/i,
+      /manufactured\s+(?:in|on)\s+(?:a\s+facility|equipment|the\s+same\s+line)\s+that\s+processes?\s+([a-zA-Z\s,/]+)/i,
+      /packaged\s+in\s+a\s+facility\s+that\s+also\s+handles?\s+([a-zA-Z\s,/]+)/i,
+      /traces?\s+of\s+([a-zA-Z\s,/]+)\s+may\s+be\s+present/i
+    ];
+
+    function analyzeIngredientsText(rawText, title = 'Packaged Food Scan') {
+      const avoidList = [];
+      const checkList = [];
+      const safeTokens = [];
+      const crossContactNotices = [];
+
+      // Check cross-contact statements
+      for (const regex of crossContactRegexes) {
+        const match = rawText.match(regex);
+        if (match) {
+          const statement = match[0].trim();
+          if (!crossContactNotices.includes(statement)) {
+            crossContactNotices.push(statement);
+          }
+        }
+      }
+
+      // Tokenize
+      const normalized = rawText.replace(/\n/g, ', ');
+      const tokens = normalized.split(/[,;.\(\)]/)
+        .map(t => t.trim())
+        .filter(t => t.length > 2);
+
+      const matchedNames = new Set();
+
+      tokens.forEach(token => {
+        const lower = token.toLowerCase();
+        let matched = false;
+
+        for (const item of INGREDIENT_KNOWLEDGE_BASE) {
+          const itemLower = item.name.toLowerCase();
+          const directMatch = lower.includes(itemLower) || itemLower.includes(lower);
+          const aliasMatch = item.alternativeNames.some(a => lower.includes(a.toLowerCase()) || a.toLowerCase().includes(lower));
+
+          if (directMatch || aliasMatch) {
+            matched = true;
+            if (!matchedNames.has(item.name)) {
+              matchedNames.add(item.name);
+              const isUserTarget = userAllergens.includes(item.category);
+
+              if (isUserTarget) {
+                if (item.status === 'AVOID') avoidList.push(item);
+                else checkList.push(item);
+              } else {
+                // Notable check
+                checkList.push({
+                  ...item,
+                  status: 'CHECK',
+                  whyFlagged: `Contains ${item.category}, not active in your current profile, but flagged for general safety.`
+                });
+              }
+            }
+          }
+        }
+
+        if (!matched && token.length > 3 && !token.toLowerCase().includes('contain')) {
+          if (safeTokens.length < 8 && !safeTokens.includes(token)) {
+            safeTokens.push(token);
+          }
+        }
+      });
+
+      let overallStatus = 'SAFE';
+      if (avoidList.length > 0) overallStatus = 'AVOID';
+      else if (checkList.length > 0 || crossContactNotices.length > 0) overallStatus = 'CHECK';
+
+      const result = {
+        title: title,
+        overallStatus: overallStatus,
+        rawText: rawText,
+        avoidIngredients: avoidList,
+        checkIngredients: checkList,
+        safeIngredients: safeTokens,
+        crossContactNotices: crossContactNotices,
+        timestamp: Date.now()
+      };
+
+      currentAnalysisResult = result;
+
+      // Save to scan history
+      const detectedNames = [...avoidList.map(a => a.name), ...checkList.map(c => c.name)];
+      scanHistory.unshift({
+        id: Date.now(),
+        title: title,
+        rawText: rawText,
+        status: overallStatus,
+        flaggedAllergens: detectedNames.join(', '),
+        timestamp: Date.now()
+      });
+      saveHistoryToStorage();
+
+      renderResultsScreen(result);
+      showScreen('screen-results');
+    }
+
+    // --- 6. RENDER RESULTS SCREEN ---
+    function renderResultsScreen(result) {
+      document.getElementById('resultsTimestamp').textContent = new Date(result.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('resultsRawText').textContent = result.rawText;
+
+      const banner = document.getElementById('resultsBanner');
+      const bannerIcon = document.getElementById('resultsBannerIcon');
+      const bannerTitle = document.getElementById('resultsBannerTitle');
+      const bannerSub = document.getElementById('resultsBannerSub');
+
+      banner.className = `result-banner ${result.overallStatus.toLowerCase()}`;
+
+      if (result.overallStatus === 'AVOID') {
+        bannerIcon.textContent = '✕';
+        bannerTitle.textContent = 'RED — AVOID PRODUCT';
+        bannerSub.textContent = 'Contains ingredients matching your active allergy profile.';
+      } else if (result.overallStatus === 'CHECK') {
+        bannerIcon.textContent = '⚠';
+        bannerTitle.textContent = 'YELLOW — CHECK INGREDIENTS';
+        bannerSub.textContent = 'Contains ambiguous derivatives, shared lines, or secondary concerns.';
+      } else {
+        bannerIcon.textContent = '✓';
+        bannerTitle.textContent = 'GREEN — NO MATCH DETECTED';
+        bannerSub.textContent = 'No allergens from your active allergy profile were detected.';
+      }
+
+      // Cross-contact section
+      const crossBlock = document.getElementById('crossContactNoticeBlock');
+      const crossList = document.getElementById('crossContactStatementsList');
+      if (result.crossContactNotices.length > 0) {
+        crossBlock.style.display = 'block';
+        crossList.innerHTML = result.crossContactNotices.map(n => `
+          <div class="cross-contact-item">“${n}”</div>
+        `).join('');
+      } else {
+        crossBlock.style.display = 'none';
+      }
+
+      // AVOID Section
+      const avoidSection = document.getElementById('resultsAvoidSection');
+      const avoidList = document.getElementById('resultsAvoidList');
+      document.getElementById('resultsAvoidCount').textContent = `${result.avoidIngredients.length} MATCHES`;
+
+      if (result.avoidIngredients.length > 0) {
+        avoidSection.style.display = 'block';
+        avoidList.innerHTML = result.avoidIngredients.map(item => renderFlaggedCardHtml(item)).join('');
+      } else {
+        avoidSection.style.display = 'none';
+      }
+
+      // CHECK Section
+      const checkSection = document.getElementById('resultsCheckSection');
+      const checkList = document.getElementById('resultsCheckList');
+      document.getElementById('resultsCheckCount').textContent = `${result.checkIngredients.length} ITEMS`;
+
+      if (result.checkIngredients.length > 0) {
+        checkSection.style.display = 'block';
+        checkList.innerHTML = result.checkIngredients.map(item => renderFlaggedCardHtml(item)).join('');
+      } else {
+        checkSection.style.display = 'none';
+      }
+
+      // SAFE Section
+      const safeSection = document.getElementById('resultsSafeSection');
+      if (result.avoidIngredients.length === 0 && result.checkIngredients.length === 0) {
+        safeSection.style.display = 'block';
+      } else {
+        safeSection.style.display = 'none';
+      }
+    }
+
+    function renderFlaggedCardHtml(item) {
+      const isAvoid = item.status === 'AVOID';
+      return `
+        <div class="flagged-card" id="flagCard_${item.name.replace(/\s+/g, '_')}">
+          <div class="flagged-card-header" onclick="toggleFlagCard('flagCard_${item.name.replace(/\s+/g, '_')}')">
+            <div>
+              <div class="flagged-name">${item.name.toUpperCase()}</div>
+              <div class="flagged-category">Related allergen: ${item.category}</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="status-badge-sm ${isAvoid ? 'avoid' : 'check'}">${isAvoid ? 'AVOID' : 'CHECK'}</span>
+              <span style="font-size:16px; color:var(--espresso-muted);">▼</span>
+            </div>
+          </div>
+          <p class="flagged-why">“${item.whyFlagged}”</p>
+          
+          <div class="flagged-details-drawer">
+            <div class="sub-label">COMMON ALTERNATIVE NAMES</div>
+            <div class="tags-cloud mb-2">
+              ${item.alternativeNames.map(alt => `<span class="pill-tag" style="background:var(--card-beige); color:var(--espresso);">${alt}</span>`).join('')}
+            </div>
+
+            <div class="sub-label">COMMON FOOD SOURCES</div>
+            <p style="font-size:12px; color:var(--espresso-secondary); margin-bottom:12px;">
+              ${item.commonSources.join(' • ')}
+            </p>
+
+            <button class="tree-action-btn" onclick="openFamilyTreeFor('${item.category}', '${item.name}')">
+              <span>View Ingredient Family Tree →</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleFlagCard(cardId) {
+      const card = document.getElementById(cardId);
+      if (card) card.classList.toggle('open');
+    }
+
+    // --- 7. INGREDIENT FAMILY TREE RENDERING ---
+    function openFamilyTreeFor(category, ingredientName = null) {
+      selectedTreeCategory = category;
+      renderFamilyTree(category, ingredientName);
+      showScreen('screen-family-tree');
+    }
+
+    function renderFamilyTree(category, activeIngredient = null) {
+      const tabs = document.getElementById('treeCategoryTabs');
+      tabs.innerHTML = ALLERGENS.map(a => `
+        <div class="tree-tab-chip ${a.id === category ? 'active' : ''}" onclick="renderFamilyTree('${a.id}')">
+          ${a.name}
+        </div>
+      `).join('');
+
+      let nodes = [];
+      if (category === 'MILK') {
+        nodes = [
+          { title: 'MILK', sub: 'Whole bovine dairy base', type: 'root' },
+          { title: 'MILK PROTEINS', sub: 'Fractionation into casein curd and liquid whey', type: 'fraction' },
+          { title: activeIngredient || 'CASEIN', sub: 'Specific industrial protein peptide (e.g. micellar casein)', type: 'derivative' },
+          { title: 'POTENTIAL ALLERGEN', sub: 'Triggers IgE-mediated immune response / anaphylaxis', type: 'target' }
+        ];
+      } else if (category === 'PEANUTS') {
+        nodes = [
+          { title: 'PEANUTS', sub: 'Arachis hypogaea legume pod', type: 'root' },
+          { title: 'LEGUME SEED PROTEINS', sub: 'Heat-stable conglutin and vicilin storage fractions', type: 'fraction' },
+          { title: activeIngredient || 'ARA H 1, ARA H 2', sub: 'Extremely resilient allergenic epitopes', type: 'derivative' },
+          { title: 'HIGH-RISK ANAPHYLACTIC TRIGGER', sub: 'Nanogram doses provoke hypersensitivity', type: 'target' }
+        ];
+      } else if (category === 'WHEAT_GLUTEN') {
+        nodes = [
+          { title: 'WHEAT & CEREALS', sub: 'Triticum aestivum cereal grain', type: 'root' },
+          { title: 'GLUTEN COMPLEX', sub: 'Endosperm storage proteins', type: 'fraction' },
+          { title: activeIngredient || 'GLIADIN & GLUTENIN', sub: 'Alcohol-soluble monomeric prolamin chains', type: 'derivative' },
+          { title: 'CELIAC & ALLERGY TRIGGER', sub: 'Induces mucosal inflammation and IgE binding', type: 'target' }
+        ];
+      } else if (category === 'SOY') {
+        nodes = [
+          { title: 'SOYBEANS', sub: 'Glycine max legume seed', type: 'root' },
+          { title: 'SOYBEAN FRACTIONATION', sub: 'Lipid and defatted protein separation', type: 'fraction' },
+          { title: activeIngredient || 'SOY LECITHIN', sub: 'Phospholipid emulsifier containing residual soy peptide', type: 'derivative' },
+          { title: 'POTENTIAL ALLERGEN', sub: 'Triggers allergy and cross-reacts with legumes', type: 'target' }
+        ];
+      } else {
+        nodes = [
+          { title: category, sub: 'Natural source whole food', type: 'root' },
+          { title: 'PROTEIN FRACTIONS', sub: 'Concentrated biochemical isolates & extracts', type: 'fraction' },
+          { title: activeIngredient || 'ALLERGENIC PEPTIDES', sub: 'Commonly disguised in industrial ingredient formulations', type: 'derivative' },
+          { title: 'POTENTIAL ALLERGEN', sub: 'Target of human immune hypersensitivity', type: 'target' }
+        ];
+      }
+
+      const stack = document.getElementById('treeNodeStack');
+      stack.innerHTML = nodes.map((node, idx) => `
+        <div class="tree-card-node ${node.type}">
+          <div class="flex-between">
+            <span class="sub-label" style="color:var(--olive-dark);">LEVEL 0${idx + 1}</span>
+            <span style="font-size:10px; font-weight:700; color:var(--espresso-muted); text-transform:uppercase;">${node.type}</span>
+          </div>
+          <div style="font-family:var(--font-display); font-size:17px; font-weight:700; margin:2px 0;">${node.title}</div>
+          <div style="font-size:12px; color:var(--espresso-secondary);">${node.sub}</div>
+        </div>
+        ${idx < nodes.length - 1 ? `
+          <div class="connector-line">
+            <div class="connector-dot">↓</div>
+          </div>
+        ` : ''}
+      `).join('');
+    }
+
+    // --- 8. LEARN MODE RENDERING ---
+    function renderLearnMode() {
+      const container = document.getElementById('learnCardsContainer');
+      container.innerHTML = LEARN_CARDS_DATA.map(card => `
+        <div class="learn-card">
+          <div class="flex-between">
+            <h3>${card.title.toUpperCase()}</h3>
+            <span class="status-badge-sm" style="background:var(--olive-light); color:var(--olive-dark);">TOP ALLERGEN</span>
+          </div>
+          <div class="learn-tagline">“${card.tagline}”</div>
+
+          <div class="sub-label">HIDDEN & ALTERNATIVE NAMES ON LABELS:</div>
+          <div class="tags-cloud mb-2">
+            ${card.hiddenNames.map(n => `<span class="label-word" style="background:var(--bg-cream); color:var(--espresso); border-color:var(--border-warm);">${n}</span>`).join('')}
+          </div>
+
+          <div class="sub-label mt-4">WHERE YOU MAY FIND IT</div>
+          <p style="font-size:13px; color:var(--espresso-secondary); margin-bottom:12px;">
+            ${card.commonSources}
+          </p>
+
+          <div style="background:var(--sage-light); border-radius:var(--radius-sm); padding:10px 12px; font-size:11px; color:var(--olive-dark); line-height:1.4;">
+            💡 <strong>Field Safety Tip:</strong> ${card.tip}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- 9. SCAN HISTORY RENDERING ---
+    function renderHistoryList() {
+      const container = document.getElementById('historyListContainer');
+      const dashRecent = document.getElementById('recentScansList');
+      const dashRecentBlock = document.getElementById('recentScansContainer');
+      const countLabel = document.getElementById('dashHistoryCount');
+
+      if (countLabel) countLabel.textContent = `${scanHistory.length} saved food analyses`;
+
+      if (scanHistory.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:40px 20px; color:var(--espresso-muted);">
+            <div style="font-size:32px; margin-bottom:10px;">📋</div>
+            <div style="font-weight:700; color:var(--espresso); margin-bottom:4px;">No Scan History Yet</div>
+            <div style="font-size:12px;">Analyzed labels will appear here for fast re-checking.</div>
+          </div>
+        `;
+        if (dashRecentBlock) dashRecentBlock.style.display = 'none';
+        return;
+      }
+
+      container.innerHTML = scanHistory.map(item => renderHistoryCardItem(item)).join('');
+
+      if (dashRecentBlock && dashRecent) {
+        dashRecentBlock.style.display = 'block';
+        dashRecent.innerHTML = scanHistory.slice(0, 2).map(item => renderHistoryCardItem(item)).join('');
+      }
+    }
+
+    function renderHistoryCardItem(item) {
+      const isAvoid = item.status === 'AVOID';
+      const isCheck = item.status === 'CHECK';
+      const statusClass = isAvoid ? 'avoid' : (isCheck ? 'check' : 'safe');
+      const statusLabel = isAvoid ? 'RED — AVOID' : (isCheck ? 'YELLOW — CHECK' : 'GREEN — NO MATCH');
+      const dateStr = new Date(item.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+      return `
+        <div class="history-card" onclick="reAnalyzeHistory(${item.id})">
+          <div class="flex-between">
+            <h4 style="font-size:15px; font-family:var(--font-display);">${item.title}</h4>
+            <span class="status-badge-sm ${statusClass}">${statusLabel}</span>
+          </div>
+          <div style="font-size:11px; color:var(--espresso-muted); margin:2px 0 6px 0;">${dateStr}</div>
+          <div style="font-size:12px; font-weight:600; color:${isAvoid ? 'var(--burgundy)' : 'var(--olive-dark)'};">
+            ${item.flaggedAllergens ? `Detected: ${item.flaggedAllergens}` : 'No profile allergens detected'}
+          </div>
+        </div>
+      `;
+    }
+
+    function reAnalyzeHistory(id) {
+      const item = scanHistory.find(x => x.id === id);
+      if (item) {
+        analyzeIngredientsText(item.rawText, item.title);
+      }
+    }
+
+    function clearAllHistory() {
+      if (confirm('Clear all local scan history?')) {
+        scanHistory = [];
+        saveHistoryToStorage();
+        showToast('History cleared');
+      }
+    }
+
+    // --- 10. PRESETS & SAMPLES ---
+    function simulateLabelScan(title, text) {
+      showToast(`Scanning & reading ${title}...`);
+      setTimeout(() => {
+        analyzeIngredientsText(text, title);
+      }, 400);
+    }
+
+    function loadPreset(text, title) {
+      document.getElementById('rawIngredientText').value = text;
+      updateCharCount();
+      analyzeIngredientsText(text, title);
+    }
+
+    function pasteSampleClipboard() {
+      const sample = 'Whey protein, cocoa, sugar, casein, soy lecithin, almond flavour, salt';
+      document.getElementById('rawIngredientText').value = sample;
+      updateCharCount();
+      showToast('Sample pasted');
+    }
+
+    function clearInput() {
+      document.getElementById('rawIngredientText').value = '';
+      updateCharCount();
+    }
+
+    function updateCharCount() {
+      const len = document.getElementById('rawIngredientText').value.length;
+      document.getElementById('charCountLabel').textContent = `${len} characters`;
+    }
+
+    function runManualAnalysis() {
+      const text = document.getElementById('rawIngredientText').value.trim();
+      if (!text) {
+        alert('Please enter or paste an ingredients list first.');
+        return;
+      }
+      analyzeIngredientsText(text, 'Manual Ingredient Entry');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastMessage');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    // --- 11. INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProfileChips();
+      renderLearnMode();
+      renderHistoryList();
+      renderFamilyTree('MILK');
+
+      document.getElementById('rawIngredientText').addEventListener('input', updateCharCount);
+    });
+  </script>
+</body>
+</html>
